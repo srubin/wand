@@ -311,6 +311,7 @@ IMAGE_TYPES = ('undefined', 'bilevel', 'grayscale', 'grayscalematte',
 #: - ``'GRAY'``
 #: - ``'Transparent'``
 #: - ``'OHTA'``
+#: - ``'Lab'``
 #: - ``'XYZ'``
 #: - ``'YCbCr'``
 #: - ``'YCC'``
@@ -319,8 +320,19 @@ IMAGE_TYPES = ('undefined', 'bilevel', 'grayscale', 'grayscalematte',
 #: - ``'YUV'``
 #: - ``'CMYK'``
 #: - ``'sRGB'``
+#: - ``'HSB'``
 #: - ``'HSL'``
 #: - ``'HWB'``
+#: - ``'Rec601Luma'``
+#: - ``'Rec601YCbCr'``
+#: - ``'Rec709Luma'``
+#: - ``'Rec709YCbCr'``
+#: - ``'Log'``
+#: - ``'CMY'``
+#: - ``'Luv'``
+#: - ``'HCL'``
+#: - ``'LCH'``
+#: - ``'LM'``
 #:
 #: .. seealso::
 #:
@@ -328,10 +340,13 @@ IMAGE_TYPES = ('undefined', 'bilevel', 'grayscale', 'grayscalematte',
 #:        Describes the MagickSetColorspace method which can be used
 #:        to set the colorspace on an image
 #:
-#:    __ http://www.imagemagick.org/api/magick-image.php#MagickSetImageColorspace
-IMAGE_COLORSPACES = ('undefined', 'RGB', 'Gray', 'Transparent', 'OHTA',
-                     'XYZ', 'YCbCr', 'YCC', 'YIQ', 'YPbPr',
-                     'YUV', 'CMYK', 'sRGB', 'HSL', 'HWB')
+#:    __ http://www.imagemagick.org/api/magick-image.php#MagickTransformImageColorspace
+IMAGE_COLORSPACES = ('Undefined', 'RGB', 'GRAY', 'Transparent',
+                     'OHTA', 'Lab', 'XYZ', 'YCbCr', 'YCC', 'YIQ',
+                     'YPbPr', 'YUV', 'CMYK', 'sRGB', 'HSB', 'HSL',
+                     'HWB', 'Rec601Luma', 'Rec601YCbCr', 'Rec709Luma',
+                     'Rec709YCbCr', 'Log', 'CMY', 'Luv', 'HCL', 'LCH',
+                     'LM')
 
 #: (:class:`tuple`) The list of resolution unit types.
 #:
