@@ -427,6 +427,12 @@ try:
 
     library.MagickSetImageType.argtypes = [ctypes.c_void_p, ctypes.c_int]
 
+    library.MagickGetImageColorspace.argtypes = [ctypes.c_void_p]
+
+    library.MagickSetImageColorspace.argtypes = [ctypes.c_void_p, ctypes.c_int]
+    library.MagickTransformImageColorspace.argtypes = [ctypes.c_void_p,
+                                                       ctypes.c_int]
+
     library.MagickEvaluateImageChannel.argtypes = [ctypes.c_void_p,
                                                    ctypes.c_int,
                                                    ctypes.c_int,

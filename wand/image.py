@@ -25,7 +25,7 @@ from .font import Font
 
 __all__ = ('ALPHA_CHANNEL_TYPES', 'CHANNELS', 'COMPOSITE_OPERATORS',
            'EVALUATE_OPS', 'FILTER_TYPES', 'GRAVITY_TYPES', 'IMAGE_TYPES',
-           'ORIENTATION_TYPES', 'UNIT_TYPES',
+           'ORIENTATION_TYPES', 'UNIT_TYPES', 'IMAGE_COLORSPACES',
            'ChannelDepthDict', 'ChannelImageDict', 'ClosedImageError',
            'Image', 'ImageProperty', 'Iterator', 'Metadata', 'OptionDict')
 
@@ -303,6 +303,50 @@ IMAGE_TYPES = ('undefined', 'bilevel', 'grayscale', 'grayscalematte',
                'palette', 'palettematte', 'truecolor', 'truecolormatte',
                'colorseparation', 'colorseparationmatte', 'optimize',
                'palettebilevelmatte')
+
+#: (:class:`tuple`) The list of image colorspaces
+#:
+#: - ``'Undefined'``
+#: - ``'RGB'``
+#: - ``'GRAY'``
+#: - ``'Transparent'``
+#: - ``'OHTA'``
+#: - ``'Lab'``
+#: - ``'XYZ'``
+#: - ``'YCbCr'``
+#: - ``'YCC'``
+#: - ``'YIQ'``
+#: - ``'YPbPr'``
+#: - ``'YUV'``
+#: - ``'CMYK'``
+#: - ``'sRGB'``
+#: - ``'HSB'``
+#: - ``'HSL'``
+#: - ``'HWB'``
+#: - ``'Rec601Luma'``
+#: - ``'Rec601YCbCr'``
+#: - ``'Rec709Luma'``
+#: - ``'Rec709YCbCr'``
+#: - ``'Log'``
+#: - ``'CMY'``
+#: - ``'Luv'``
+#: - ``'HCL'``
+#: - ``'LCH'``
+#: - ``'LM'``
+#:
+#: .. seealso::
+#:
+#:    `ImageMagick Colorspaces`__
+#:        Describes the MagickSetColorspace method which can be used
+#:        to set the colorspace on an image
+#:
+#:    __ http://www.imagemagick.org/api/magick-image.php#MagickTransformImageColorspace
+IMAGE_COLORSPACES = ('Undefined', 'RGB', 'GRAY', 'Transparent',
+                     'OHTA', 'Lab', 'XYZ', 'YCbCr', 'YCC', 'YIQ',
+                     'YPbPr', 'YUV', 'CMYK', 'sRGB', 'HSB', 'HSL',
+                     'HWB', 'Rec601Luma', 'Rec601YCbCr', 'Rec709Luma',
+                     'Rec709YCbCr', 'Log', 'CMY', 'Luv', 'HCL', 'LCH',
+                     'LM')
 
 #: (:class:`tuple`) The list of resolution unit types.
 #:
@@ -996,6 +1040,34 @@ class Image(Resource):
                             ', not ' + repr(image_type))
         r = library.MagickSetImageType(self.wand,
                                        IMAGE_TYPES.index(image_type))
+        if not r:
+            self.raise_exception()
+
+    @property
+    def colorspace(self):
+        """(:class:`basestring`) The image colorspace.
+
+        Defines the colorspace of the image as in :const:
+        `IMAGE_COLORSPACES` enumeration.
+
+        It may raise :exc:`ValueError` when the colorspace is unknown.
+
+        """
+        image_colorspace_index = library.MagickGetImageColorspace(self.wand)
+        if not image_colorspace_index:
+            self.raise_exception()
+        return IMAGE_COLORSPACES[image_colorspace_index]
+
+    @colorspace.setter
+    def colorspace(self, image_colorspace):
+        if not isinstance(image_colorspace, basestring) \
+            or image_colorspace not in IMAGE_COLORSPACES:
+            raise TypeError('Colorspace value must be a string from '
+                            'IMAGE_COLORSPACES, not ' + repr(image_colorspace))
+
+        r = library.MagickTransformImageColorspace(self.wand,
+                                             IMAGE_COLORSPACES.index(
+                                                image_colorspace))
         if not r:
             self.raise_exception()
 
